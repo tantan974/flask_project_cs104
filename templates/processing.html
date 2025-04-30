@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Processing{% endblock %}
+{% block content %}
+<div class="processing-container">
+  <p>Parsing your log file. Please wait...</p>
+  <!-- Progress will update here -->
+  <div id="progress-text">Starting...</div>
+</div>
+<script>
+  // Get progress info from Flask
+  const progressId = "{{ progress_id }}";
+  const redirectUrl = "{{ redirect_url }}";
+
+  // Poll backend for parsing progress and update the UI
+  function pollProgress() {
+    fetch(`/progress/${progressId}`)
+      .then(response => response.json())
+      .then(data => {
+        // Show progress like "184/240"
+        let progress = data.progress.split('|')[0];
+        document.getElementById('progress-text').textContent = progress;
+        // Redirect when done in a bit
+        if (data.progress.startsWith('Processed')) {
+          setTimeout(() => { window.location.href = redirectUrl; }, 1500);
+        } else {
+          setTimeout(pollProgress, 1000);
+        }
+      });
+  }
+  pollProgress();
+</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Graphs and Plots{% endblock %}
+{% block content %}
+<!-- Download buttons for each plot -->
+<div class="submit-section">
+    <a href="{{ url_for('download_image', img='line_plot.png') }}" class="button">Download Line Plot</a>
+    <a href="{{ url_for('download_image', img='pie_chart.png') }}" class="button">Download Pie Chart</a>
+    <a href="{{ url_for('download_image', img='bar_chart.png') }}" class="button">Download Bar Chart</a>
+    <a href="{{ url_for('download_image', img='stacked_bar_chart.png') }}" class="button">Download Stacked Bar</a>
+    <a href="{{ url_for('download_image', img='heatmap.png') }}" class="button">Download Heatmap</a>
+    <a href="{{ url_for('download_image', img='histogram.png') }}" class="button">Download Histogram</a>
+    <a href="{{ url_for('download_image', img='scatter_plot.png') }}" class="button">Download Scatter Plot</a>
+    <a href="{{ url_for('download_image', img='area_chart.png') }}" class="button">Download Area Chart</a>
+</div>
+
+<!-- All the auto-generated plots -->
+<div class="graphs-section">
+    <div>
+        <h3>Events Over Time (Line Plot)</h3>
+        <img src="{{ line_plot_url }}" alt="Line Plot" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Log Level Distribution (Pie)</h3>
+        <img src="{{ pie_chart_url }}" alt="Pie Chart" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Event ID Distribution (Bar)</h3>
+        <img src="{{ bar_chart_url }}" alt="Bar Chart" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Daily Log Level Counts (Stacked Bar)</h3>
+        <img src="{{ stacked_bar_url }}" alt="Stacked Bar Chart" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Heatmap: Log Levels by Hour</h3>
+        <img src="{{ heatmap_url }}" alt="Heatmap" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Histogram of Events per Hour</h3>
+        <img src="{{ histogram_url }}" alt="Histogram" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Scatter Plot: Line ID vs. Hour</h3>
+        <img src="{{ scatter_plot_url }}" alt="Scatter Plot" style="max-width:100%;">
+    </div>
+    <div>
+        <h3>Cumulative Events Over Time (Area)</h3>
+        <img src="{{ area_chart_url }}" alt="Area Chart" style="max-width:100%;">
+    </div>
+</div>
+
+<hr>
+<!-- Custom user plot section -->
+<h2>Custom Python Plot</h2>
+<p>
+    <b>Write custom code below to generate your own plot. The log CSV is loaded as a pandas DataFrame <code>df</code>.<br>
+    You can use <code>plt</code> (<code>matplotlib.pyplot</code>), <code>pd</code> (<code>pandas</code>), <code>np</code> (<code>numpy</code>).</b>
+    <br>
+    <i>Example: <code>df['Level'].value_counts().plot(kind='bar', color='#ffb347'); plt.title('Levels');</code></i>
+</p>
+<form method="post" class="custom-plot-form">
+    <textarea name="custom_code" rows="10" style="width:100%;font-family:monospace;font-size:1em;">{{ custom_code or "df['Level'].value_counts().plot(kind='bar', color='#ffb347'); plt.title('Levels');" }}</textarea>
+    <div class="submit-section">
+        <button type="submit" class="button">Run Custom Plot</button>
+    </div>
+</form>
+<!-- Show errors from custom code, if any -->
+{% if error %}
+<div class="alert alert-error" style="white-space:pre-wrap;">{{ error }}</div>
+{% endif %}
+<!-- Show the user's custom plot if it was generated -->
+{% if custom_plot_url %}
+<div>
+    <h3>Your Custom Plot</h3>
+    <img src="{{ custom_plot_url }}" alt="Custom Plot" style="max-width:100%;">
+    <a href="{{ url_for('download_image', img='custom_plot.png') }}" class="button">Download Custom Plot</a>
+</div>
+{% endif %}
+{% endblock %}

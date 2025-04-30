@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Log File Analysis{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- JS for drag-and-drop and table enhancements -->
+    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+</head>
+<body>
+    <!-- Fixed header with logo and branding -->
+    <header>
+        <div class="container header-container">
+            <div class="logoh">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <h1>
+                    <span class="only">Only</span><span class="fans">Files</span>
+                </h1>
+            </div>
+        </div>
+    </header>
+    <!-- Main content goes here -->
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <!-- Footer with credits -->
+    <footer>
+        <p>&copy; Made by nitanshu (^///^)</p>
+    </footer>
+</body>
+</html>

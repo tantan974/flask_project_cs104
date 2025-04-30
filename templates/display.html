@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Display Logs{% endblock %}
+{% block content %}
+<!-- Show skipped line warning if any lines were bad -->
+{% if skipped_lines %}
+<div style="color: red; font-style: italic; margin-bottom: 1em;">
+    Lines {{ skipped_lines }} were bad and skipped due to wrong format.
+</div>
+{% endif %}
+
+<!-- Action buttons for user navigation -->
+<div class="submit-section">
+    <a href="{{ url_for('upload') }}" class="button">Re-upload Log</a>
+    <a href="{{ url_for('download_csv') }}" class="button">Download CSV</a>
+    <a href="{{ url_for('graph') }}" class="button">Display Graphs</a>
+</div>
+
+<!-- Table of parsed logs -->
+<table>
+    <thead>
+        <tr>
+            <th>Line ID</th>
+            <th>Timestamp</th>
+            <th>Level</th>
+            <th>Content</th>
+            <th>Event ID</th>
+            <th>Event Template</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if logs %}
+            {% for log in logs %}
+            <tr>
+                <td>{{ log['Line ID'] }}</td>
+                <td>{{ log['Timestamp'] }}</td>
+                <td>{{ log['Level'] }}</td>
+                <td>{{ log['Content'] }}</td>
+                <td>{{ log['Event ID'] }}</td>
+                <td>{{ log['Event Template'] }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <!-- Show message if no logs are available -->
+            <tr>
+                <td colspan="6">No logs to display.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

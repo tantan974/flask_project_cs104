@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Upload Log File{% endblock %}
+{% block content %}
+<!-- Motivational quote for the user -->
+<div class="big-quote">
+    <span class="big-quote-mark">“</span>
+    We strip your logs, sort 'em and show it all off.
+</div>
+<!-- Main upload form -->
+<form method="post" enctype="multipart/form-data" class="upload-section">
+    <!-- Drag-and-drop zone for log file -->
+    <div class="drop-area">
+        <input type="file" name="file" accept=".log" required>
+        <p>Drag & drop your .log file here or click to select</p>
+    </div>
+    <!-- Filter options for log level and event -->
+    <div class="filters">
+        <label for="filter_level">Level:</label>
+        <select name="filter_level" id="filter_level">
+            <option value="">All</option>
+            <option value="notice">notice</option>
+            <option value="error">error</option>
+        </select>
+        <label for="filter_event">Event:</label>
+        <select name="filter_event" id="filter_event">
+            <option value="">All</option>
+            <option value="E1">E1</option>
+            <option value="E2">E2</option>
+            <option value="E3">E3</option>
+            <option value="E4">E4</option>
+            <option value="E5">E5</option>
+            <option value="E6">E6</option>
+        </select>
+    </div>
+    <!-- Sorting options for the uploaded log -->
+    <div class="sorting">
+        <label>Sort by:</label>
+        <input type="radio" name="sort_field" value="line" checked>Line Number
+        <input type="radio" name="sort_field" value="event">Event ID
+        <label>Order:</label>
+        <input type="radio" name="sort_order" value="asc" checked>Ascending
+        <input type="radio" name="sort_order" value="desc">Descending
+    </div>
+    <!-- Submit button -->
+    <div class="submit-section">
+        <button type="submit" name="action" value="display">Do stuff to the Logs</button>
+    </div>
+</form>
+{% endblock %}
